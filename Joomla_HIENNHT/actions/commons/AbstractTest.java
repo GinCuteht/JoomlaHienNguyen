@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.Assert;
+import org.testng.Reporter;
 
 public class AbstractTest {
 
@@ -59,6 +61,40 @@ public class AbstractTest {
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	public boolean verifyTrue(boolean condition) {
+    	boolean pass = true;
+		try {
+			Assert.assertTrue(condition);
+		} catch (Throwable e) {
+			pass = false;
+			e.printStackTrace();
+			Reporter.getCurrentTestResult().setThrowable(e);
+		}
+		return pass;
+	}
+
+	public boolean verifyFalse(boolean condition) {
+		try {
+			Assert.assertFalse(condition);
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Reporter.getCurrentTestResult().setThrowable(e);
+			return false;
+		}
+	}
+
+	public boolean verifyEquals(Object actual, Object expected) {
+		try {
+			Assert.assertEquals(actual, expected);
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Reporter.getCurrentTestResult().setThrowable(e);
+			return false;
 		}
 	}
 }
